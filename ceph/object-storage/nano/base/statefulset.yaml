@@ -35,6 +35,7 @@ spec:
           name: ceph-nano
           ports:
             - containerPort: 8000
+            - containerPort: 5001
           protocol: TCP
           resources:
             limits:
@@ -53,6 +54,8 @@ spec:
               value: "8000"
             - name: SREE_PORT
               value: "5001"
+            - name: EXPOSED_IP
+              value: "127.0.0.1"
             - name: CEPH_DEMO_UID
               value: "nano"
               # Enable all of the ceph daemons to run

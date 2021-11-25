@@ -29,7 +29,11 @@ To install Ceph Object Storage add the following to the `kfctl` yaml file.
 ### Additional Info
 * When `ceph-nano` is deployed, pods in the namespace can access the object storage using the `ceph-nano-0` service name `http://ceph-nano-0`
 
-* Deployment of `ceph-nano` will create a route to a `ceph-nano-dashboard` that provides a S3 web portal for the in pod object storage.
+* For S3 web portal, execute this command and access the portal with `http://localhost:5001`
+  ~~~
+  oc port-forward pod/ceph-nano-0 5001 8000
+  ~~~
+  If you hit `ACCESS_DENY`, please clean brower cache and try it again.
 
 * The ACCESS_KEY and SECRET_KEY created for this deployment can be found in `ceph-nano-credentials` secret.
   ```

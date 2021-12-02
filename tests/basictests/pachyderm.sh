@@ -46,7 +46,7 @@ function test_pachyderm() {
     header "Setup Pachyderm"
     os::cmd::expect_success "oc project ${ODHPROJECT}"
     
-    os::cmd::try_until_not_text "oc get pod/ceph-nano-0 -n ${ODHPROJECT} --field-selector='status.phase=Running'" "No resources found"
+    os::cmd::expect_success_and_text "oc get pod/ceph-nano-0 -n ${ODHPROJECT} |grep Running |wc -l" "1"
 
     create_ceph_bucket
 	create_pachyderm_secret

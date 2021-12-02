@@ -41,7 +41,8 @@ function test_pachyderm() {
     os::cmd::try_until_text "oc get deployment pg-bouncer" "pg-bouncer" $odhdefaulttimeout $odhdefaultinterval
     os::cmd::try_until_text "oc get statefulset etcd" "etcd" $odhdefaulttimeout $odhdefaultinterval
     os::cmd::try_until_text "oc get statefulset postgres" "postgres" $odhdefaulttimeout $odhdefaultinterval
-
+    
+    os::cmd::try_until_not_text "oc get pod -l app=pachd --field-selector='status.phase=Running'" "No resources found"
     runningpods=($(oc get pods -l suite=pachyderm --field-selector="status.phase=Running" -o jsonpath="{$.items[*].metadata.name}"))
     os::cmd::expect_success_and_text "echo ${#runningpods[@]}" "3"
 }

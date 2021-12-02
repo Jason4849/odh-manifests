@@ -13,7 +13,7 @@ PACHYDERM_RESOURCE_DIR="${MY_DIR}/../resources/pachyderm"
 os::test::junit::declare_suite_start "$MY_SCRIPT"
 
 function create_ceph_bucket() {
-    header "Create a nes Ceph bucket `my-new-bucket`"
+    header "Create a nes Ceph bucket my-new-bucket"
     os::cmd::expect_success "oc rsync ${PACHYDERM_RESOURCE_DIR} ceph-nano-0:/tmp"
     oc exec pod/ceph-nano-0 -- /bin/bash -c /tmp/pachyderm/ceph-bucket-create.sh
 }

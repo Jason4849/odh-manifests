@@ -1,0 +1,14 @@
+kind: Pachyderm
+apiVersion: aiml.pachyderm.com/v1beta1
+metadata:
+  name: pachyderm-ceph
+spec:
+  console:
+    disable: true
+  pachd:
+    metrics:
+      disable: false
+    storage:
+      amazon:
+        credentialSecretName: pachyderm-ceph-secret
+      backend: AMAZON

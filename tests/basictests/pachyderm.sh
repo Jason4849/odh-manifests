@@ -16,7 +16,7 @@ function create_ceph_bucket() {
     header "Create a new Ceph bucket my-new-bucket"
     oc rsync ${PACHYDERM_RESOURCE_DIR} -n ${ODHPROJECT} ceph-nano-0:/tmp
     
-    oc exec pod/ceph-nano-0 -n ${ODHPROJECT} -- mv -c /tmp/pachyderm/ceph-bucket-create.sh.template /tmp/pachyderm/ceph-bucket-create.sh
+    oc exec pod/ceph-nano-0 -n ${ODHPROJECT} -- mv -c /tmp/pachyderm/ceph-bucket-create.sh.temp /tmp/pachyderm/ceph-bucket-create.sh
     oc exec pod/ceph-nano-0 -n ${ODHPROJECT} -- /bin/bash -c /tmp/pachyderm/ceph-bucket-create.sh
 }
 

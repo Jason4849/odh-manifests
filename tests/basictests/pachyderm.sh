@@ -16,7 +16,7 @@ function create_ceph_bucket() {
     header "Create a new Ceph bucket my-new-bucket"
     oc rsync ${PACHYDERM_RESOURCE_DIR} -n ${ODHPROJECT} ceph-nano-0:/tmp
     
-    oc exec pod/ceph-nano-0 -n ${ODHPROJECT} -- /bin/mv -c /tmp/pachyderm/ceph-bucket-create.sh.template /tmp/pachyderm/ceph-bucket-create.sh
+    oc exec pod/ceph-nano-0 -n ${ODHPROJECT} -- mv -c /tmp/pachyderm/ceph-bucket-create.sh.template /tmp/pachyderm/ceph-bucket-create.sh
     oc exec pod/ceph-nano-0 -n ${ODHPROJECT} -- /bin/bash -c /tmp/pachyderm/ceph-bucket-create.sh
 }
 
@@ -50,7 +50,7 @@ function test_pachyderm() {
     
     os::cmd::try_until_text "oc get pod/ceph-nano-0 -n ${ODHPROJECT} |grep Running |wc -l" "1"
     sleep 10
-    
+
     create_ceph_bucket
 	create_pachyderm_secret
 	create_pachyderm_cr

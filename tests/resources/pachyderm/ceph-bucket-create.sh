@@ -23,4 +23,5 @@ for bucket in conn.get_all_buckets():
 EOF
 
 yum install python-boto -y
+sleep 5
 python s3test.py

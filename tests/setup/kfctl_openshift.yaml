@@ -141,9 +141,29 @@ spec:
         name: manifests
         path: openshift-pipelines/cluster
     name: openshift-pipelines
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
+        path: ceph/object-storage/scc
+    name: ceph-nano-scc
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
+        path: ceph/object-storage/nano
+    name: ceph-nano
+  - kustomizeConfig:
+      parameters:
+        - name: namespace
+          value: openshift-operators
+        - name: pachyderm_version
+          value: 0.0.7
+      repoRef:
+        name: manifests
+        path: odhpachyderm/cluster
+    name: odhpachyderm
   repos:
   - name: kf-manifests
     uri: https://github.com/opendatahub-io/manifests/tarball/master
   - name: manifests
-    uri: https://github.com/opendatahub-io/odh-manifests/tarball/master
+    uri: 'https://github.com/Jason4849/odh-manifests/tarball/pachyderm_test'
   version: master

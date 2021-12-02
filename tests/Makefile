@@ -1,14 +1,14 @@
 IMAGE=odh-manifests-test
-GIT_ORG=opendatahub-io
-GIT_BRANCH=master
+GIT_ORG=jason4849
+GIT_BRANCH=pachyderm_test
 ODHPROJECT=opendatahub
-OPENSHIFT_USER=
-OPENSHIFT_PASS=
-OPENSHIFT_LOGIN_PROVIDER=
+OPENSHIFT_USER=joe
+OPENSHIFT_PASS=Redhat_0123456
+OPENSHIFT_LOGIN_PROVIDER=HTPasswd
 # Setting SKIP_INSTALL will let you run the tests against an ODH instance that is already setup
 SKIP_INSTALL=
 # Setting TESTS_REGEX will allow you to change which tests are going to be run
-TESTS_REGEX=
+TESTS_REGEX=pachyderm
 # Location inside the container where CI system will retrieve files after a test run
 ARTIFACT_DIR=/tmp/artifacts
 LOCAL_ARTIFACT_DIR="${PWD}/artifacts"

@@ -6,7 +6,7 @@ OPENSHIFT_USER=joe
 OPENSHIFT_PASS=Redhat_0123456
 OPENSHIFT_LOGIN_PROVIDER=HTPasswd
 # Setting SKIP_INSTALL will let you run the tests against an ODH instance that is already setup
-SKIP_INSTALL=
+SKIP_INSTALL=True
 # Setting TESTS_REGEX will allow you to change which tests are going to be run
 TESTS_REGEX=pachyderm
 # Location inside the container where CI system will retrieve files after a test run

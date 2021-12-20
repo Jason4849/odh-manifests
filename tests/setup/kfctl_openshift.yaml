@@ -156,7 +156,7 @@ spec:
         - name: namespace
           value: openshift-operators
         - name: pachyderm_version
-          value: 0.0.7
+          value: 0.0.8
       repoRef:
         name: manifests
         path: odhpachyderm/cluster

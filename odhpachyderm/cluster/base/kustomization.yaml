@@ -4,6 +4,9 @@ namespace: opendatahub
 resources:
 - subscription.yaml
 - job.yaml
+- role.yaml
+- role-binding.yaml
+- service-account.yaml
 
 commonLabels:
   component.opendatahub.io/name: pachyderm

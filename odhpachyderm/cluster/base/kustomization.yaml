@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: opendatahub
 resources:
 - subscription.yaml
+- job.yaml
 
 commonLabels:
   component.opendatahub.io/name: pachyderm

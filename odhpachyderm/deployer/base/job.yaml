@@ -68,6 +68,10 @@ spec:
                   sleep 1
                   isPodReady ${ceph_pod_name}
                   cephReady=$?
+
+                  oc get secret ceph-nano-credentials
+                  cephReady=$?
+                  
                   echo "Ceph Nano Pod is NOT Ready."
                 done
 

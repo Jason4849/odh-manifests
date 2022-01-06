@@ -14,6 +14,8 @@ commonLabels:
 configMapGenerator:
 - name: pachyderm-deployer-parameters
   env: params.env
+generatorOptions:
+  disableNameSuffixHash: true
 
 # vars:
 # - name: pachyderm_version

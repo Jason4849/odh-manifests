@@ -72,15 +72,15 @@ spec:
                 echo "Ceph is ready"
 
                 ## Create an object bucket "pachyderm-storage"
-                access_key=$(oc get secret ceph-nano-credentials -o jsonpath='{ .data.AWS_ACCESS_KEY_ID}'|base64 -d)
-                secret_key=$(oc get secret ceph-nano-credentials -o jsonpath='{ .data.AWS_SECRET_ACCESS_KEY}'|base64 -d)
+                export access_key=$(oc get secret ceph-nano-credentials -o jsonpath='{ .data.AWS_ACCESS_KEY_ID}'|base64 -d)
+                export secret_key=$(oc get secret ceph-nano-credentials -o jsonpath='{ .data.AWS_SECRET_ACCESS_KEY}'|base64 -d)
 
                 mkdir /tmp/s3
                 cat << EOF > /tmp/s3/createBucket.py
               import boto.s3.connection
 
-              access_key = '${access_key}'
-              secret_key = '${secret_key}'
+              access_key='${access_key}'
+              secret_key='${secret_key}'
               conn = boto.connect_s3(
                       aws_access_key_id=access_key,
                       aws_secret_access_key=secret_key,
@@ -99,7 +99,8 @@ spec:
                 oc rsync /tmp/s3 ceph-nano-0:/home/
                 oc exec ceph-nano-0 -c ceph-nano -- /usr/bin/yum install python-boto -y
                 oc exec ceph-nano-0 -c ceph-nano -- /usr/bin/python /home/s3/createBucket.py
-
+                sleep 3
+                
                 ## Create a secret "pachyderm-ceph-secret" for the bucket "pachderm-storage"
                 endpoint=$(oc get svc ceph-nano-0 -o jsonpath='{ .spec.clusterIP }')
 
@@ -110,7 +111,7 @@ spec:
                 --from-literal=region=us-east-2 \
                 --from-literal=bucket=pachyderm-storage
               else 
-                secreat_exist=$(oc get secret ${STORAGE_SECRET_NAME} --no-headers |wc -l)
+                secret_exist=$(oc get secret ${STORAGE_SECRET_NAME} --no-headers |wc -l)
                 if [[ ${secret_exist} == 1 ]]
                 then
                   pachyderm_secret_name=${STORAGE_SECRET_NAME}

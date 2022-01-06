@@ -16,7 +16,7 @@ vars:
 - name: pachyderm_version
   objref:
     kind: ConfigMap
-    name: pachyderm_parameters
+    name: pachyderm_operator_parameters
     apiVersion: v1
   fieldref:
     fieldpath: data.pachyderm_version

@@ -10,8 +10,8 @@ rules:
   - pods/log
   - pods/attach
   - pods/exec
-  - secret
-  - service
+  - secrets
+  - services
   verbs:
   - create
   - get
@@ -24,17 +24,6 @@ rules:
   verbs:
   - get
   - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - get
-  - list
-  - create
-  - update
-  - delete
   - watch
 - apiGroups:
   - aiml.pachyderm.com

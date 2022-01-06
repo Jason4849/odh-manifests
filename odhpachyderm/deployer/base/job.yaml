@@ -16,7 +16,7 @@ spec:
             - name: STORAGE_SECRET_NAME
               valueFrom:
                 configMapKeyRef:
-                  name: pachyderm_deployer_parameters
+                  name: pachyderm-deployer-parameters
                   key: storage_secret
           command:
             - /bin/bash

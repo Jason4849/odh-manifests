@@ -6,6 +6,7 @@ metadata:
     app: pachyderm-deployer
 spec:
   backoffLimit: 2
+  activeDeadlineSeconds: 100
   template:
     spec:
       containers:
@@ -38,9 +39,9 @@ spec:
 
                 if [[ ${ready_pod} == ${desired_pod} ]]
                 then 
-                echo "0" # READY
+                  echo "0" # READY
                 else
-                      echo "1" # NOT READY
+                  echo "1" # NOT READY
                 fi
               }
 
@@ -54,7 +55,7 @@ spec:
                 ceph_statefulset_name=$(oc get statefulset --no-headers -o=custom-columns=name:metadata.name)
                 if [[ z ==  z${ceph_statefulset_name} ]] 
                 then
-                  echo "Ceph is not created. Please add Ceph component into KfDef"
+                  echo "ERROR: Ceph is not created. Please add Ceph component into KfDef"
                   exit 1
                 fi
                 
@@ -67,6 +68,7 @@ spec:
                   sleep 1
                   isPodReady ${ceph_pod_name}
                   cephReady=$?
+                  echo "Ceph Nano Pod is NOT Ready."
                 done
 
                 echo "Ceph is ready"
@@ -116,7 +118,7 @@ spec:
                 then
                   pachyderm_secret_name=${STORAGE_SECRET_NAME}
                 else
-                  echo "Secret \"${STORAGE_SECRET_NAME}\" does not exist"
+                  echo "ERROR: Secret \"${STORAGE_SECRET_NAME}\" does not exist"
                   echo "Please check the secret"
                   exit 1
                 fi

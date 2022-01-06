@@ -12,16 +12,16 @@ commonLabels:
   opendatahub.io/component: "true"
 
 configMapGenerator:
-- name: pachyderm_parameters
+- name: pachyderm_deployer_parameters
   env: params.env
 
-#vars:
-#- name: pachyderm_version
-#  objref:
-#    kind: ConfigMap
-#    name: pachyderm_parameters
-#    apiVersion: v1
-#  fieldref:
-#    fieldpath: data.pachyderm_version
-configurations:
-- params.yaml
+# vars:
+# - name: pachyderm_version
+#   objref:
+#     kind: ConfigMap
+#     name: pachyderm_parameters
+#     apiVersion: v1
+#   fieldref:
+#     fieldpath: data.pachyderm_version
+# configurations:
+# - params.yaml

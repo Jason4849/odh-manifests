@@ -5,7 +5,7 @@ metadata:
   labels:
     app: pachyderm-deployer
 spec:
-  backoffLimit: 2
+  backoffLimit: 3
   activeDeadlineSeconds: 100
   template:
     spec:
@@ -110,8 +110,6 @@ spec:
                 sleep 3
                 
                 ## Create a secret "pachyderm-ceph-secret" for the bucket "pachderm-storage"
-                # access_key=$(oc get secret ceph-nano-credentials -o jsonpath='{ .data.AWS_ACCESS_KEY_ID}'|base64 -d)
-                # secret_key=$(oc get secret ceph-nano-credentials -o jsonpath='{ .data.AWS_SECRET_ACCESS_KEY}'|base64 -d)
                 endpoint=$(oc get svc ceph-nano-0 -o jsonpath='{ .spec.clusterIP }')
 
                 oc create secret generic ${pachyderm_secret_name} \
@@ -150,6 +148,8 @@ spec:
                       credentialSecretName: ${pachyderm_secret_name}
                     backend: AMAZON
               "|oc create -f -
+
+              echo "Pachyderm Deployer is successfully finished"
           imagePullPolicy: IfNotPresent
           name: deploy-pachyderm
       dnsPolicy: ClusterFirst

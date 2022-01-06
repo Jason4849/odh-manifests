@@ -65,17 +65,19 @@ spec:
                 cephReady=1
                 while [[ ${cephReady} != 0 ]]
                 do
+                  echo ""
+                  echo "INFO: Ceph Nano is NOT Ready."
+                  
                   sleep 1
                   isPodReady ${ceph_pod_name}
                   cephReady=$?
 
                   oc get secret ceph-nano-credentials
-                  cephReady=$?
-                  
-                  echo "Ceph Nano Pod is NOT Ready."
+                  cephReady=$?                                 
                 done
 
-                echo "Ceph is ready"
+                echo ""
+                echo "INFO: Ceph Nano is Ready"
 
                 ## Create an object bucket "pachyderm-storage"
                 export access_key=$(oc get secret ceph-nano-credentials -o jsonpath='{ .data.AWS_ACCESS_KEY_ID}'|base64 -d)
@@ -108,8 +110,8 @@ spec:
                 sleep 3
                 
                 ## Create a secret "pachyderm-ceph-secret" for the bucket "pachderm-storage"
-                access_key=$(oc get secret ceph-nano-credentials -o jsonpath='{ .data.AWS_ACCESS_KEY_ID}'|base64 -d)
-                secret_key=$(oc get secret ceph-nano-credentials -o jsonpath='{ .data.AWS_SECRET_ACCESS_KEY}'|base64 -d)
+                # access_key=$(oc get secret ceph-nano-credentials -o jsonpath='{ .data.AWS_ACCESS_KEY_ID}'|base64 -d)
+                # secret_key=$(oc get secret ceph-nano-credentials -o jsonpath='{ .data.AWS_SECRET_ACCESS_KEY}'|base64 -d)
                 endpoint=$(oc get svc ceph-nano-0 -o jsonpath='{ .spec.clusterIP }')
 
                 oc create secret generic ${pachyderm_secret_name} \

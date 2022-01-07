@@ -10,3 +10,6 @@ spec:
   to:
     kind: Service
     name: superset
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge

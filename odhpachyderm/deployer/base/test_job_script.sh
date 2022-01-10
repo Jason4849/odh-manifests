@@ -6,7 +6,7 @@
 # However, the storage_secret was set different name, it execute only:
 #  - Pachyderm part
 
-current_prj_name=$(oc project -q)
+current_prj_name=${PROJECT_NAME}
 operator_prj_name=openshift-operators
 
 isPodReady(){
@@ -33,8 +33,8 @@ isPodReady(){
 
 # Storage Setup Part
 ## Check if customer set a custom secret name
-pachyderm-ceph-secret=pachyderm-ceph-secret
-if [[ ${pachyderm-ceph-secret} == ${STORAGE_SECRET_NAME} ]]
+pachyderm_secret_name=pachyderm-ceph-secret
+if [[ ${pachyderm_secret_name} == ${STORAGE_SECRET_NAME} ]]
 then
   ## Ceph exist in the same namespace
   ceph_statefulset_name=$(oc get statefulset -n ${current_prj_name} --no-headers -o=custom-columns=name:metadata.name)

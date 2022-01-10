@@ -152,7 +152,7 @@ do
         amazon:
           credentialSecretName: ${pachyderm_secret_name}
         backend: AMAZON
-  "|oc apply -f -n ${current_prj_name} -
+  "|oc apply -n ${current_prj_name} -f -
 
   if [[ $? != 0 ]]
   then

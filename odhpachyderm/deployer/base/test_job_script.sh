@@ -27,7 +27,7 @@ isPodReady(){
   else
     echo "1" # NOT READY
   fi
-  sleep 3
+  sleep 5
 }
 
 
@@ -115,24 +115,6 @@ else
   fi
 fi
 # Pachyderm Part
-## Wait for Pachyderm operator is Ready
-pachydermOperatorReady=1
-while [[ ${pachydermOperatorReady} != 0 ]]
-do
-  echo ""
-  echo "INFO: Pachyderm Operator is NOT Ready."
-
-  isPodReady pachyderm ${operator_prj_name}
-  pachydermOperatorReady=$?
-
-  oc get pachyderm 
-  pachydermOperatorReady=$?    
-done
-
-echo ""
-echo "Pachyderm Operator is ready"
-
-
 ## Create Pachyderm CR with the secret
 pachydermCRCreated=1
 while [[ ${pachydermCRCreated} != 0 ]]
@@ -163,7 +145,7 @@ do
     echo "INFO: Pachyderm CR is created successfully."
     pachydermCRCreated=0
   fi    
-  sleep 2
+  sleep 5
 done
 
 echo "Pachyderm Deployer is successfully finished"

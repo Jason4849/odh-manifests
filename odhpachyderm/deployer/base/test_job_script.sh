@@ -27,6 +27,7 @@ isPodReady(){
   else
     echo "1" # NOT READY
   fi
+  sleep 3
 }
 
 
@@ -52,7 +53,6 @@ then
     echo ""
     echo "INFO: Ceph Nano is NOT Ready."
 
-    sleep 1
     isPodReady ${ceph_pod_name}
     cephReady=$?
 
@@ -122,7 +122,6 @@ do
   echo ""
   echo "INFO: Pachyderm Operator is NOT Ready."
 
-  sleep 1
   isPodReady pachyderm ${operator_prj_name}
   pachydermOperatorReady=$?
 
@@ -155,7 +154,7 @@ do
         backend: AMAZON
   "|oc apply -f -
 
-  if [[ $@ != 0 ]]
+  if [[ $? != 0 ]]
   then
     echo "INFO: Pachyderm CR failed to be created."
     echo "INFO: Retry to create a Pachyderm CR."
@@ -164,6 +163,7 @@ do
     echo "INFO: Pachyderm CR is created successfully."
     pachydermCRCreated=0
   fi    
+  sleep 2
 done
 
 echo "Pachyderm Deployer is successfully finished"

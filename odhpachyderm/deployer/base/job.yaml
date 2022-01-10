@@ -31,14 +31,22 @@ spec:
               # However, the storage_secret was set different name, it execute only:
               #  - Pachyderm part
 
-<<<<<<< HEAD
 
-=======
->>>>>>> pachyderm
+              current_prj_name=$(oc project -q)
+              operator_prj_name=openshift-operators
+
               isPodReady(){
                 local pod_name=$1
-                ready_pod=$(oc get pod $pod_name  --no-headers|awk '{print $2}' |cut -d/ -f1)
-                desired_pod=$(oc get pod $pod_name  --no-headers|awk '{print $2}' |cut -d/ -f2)
+                local prj_name=$2
+
+                if [[ z${prj_name} == z ]]
+                then 
+                  prj_name=${current_prj_name}
+                fi
+
+                ready_pod=$(oc get pod -n ${prj_name} |grep $pod_name  --no-headers|awk '{print $2}' |cut -d/ -f1)
+                desired_pod=$(oc get pod -n ${prj_name} | grep $pod_name  --no-headers|awk '{print $2}' |cut -d/ -f2)
+
 
                 if [[ ${ready_pod} == ${desired_pod} ]]
                 then 
@@ -134,27 +142,58 @@ spec:
               fi
 
               # Pachyderm Part
+              ## Wait for Pachyderm operator is Ready
+
+              pachydermOperatorReady=1
+              while [[ ${pachydermOperatorReady} != 0 ]]
+              do
+                echo ""
+                echo "INFO: Pachyderm Operator is NOT Ready."
+
+                sleep 1
+                isPodReady pachyderm ${operator_prj_name}
+                pachydermOperatorReady=$?
+
+                oc get pachyderm 
+                pachydermOperatorReady=$?    
+              done
+
+              echo ""
+              echo "Pachyderm Operator is ready"
+
+
               ## Create Pachyderm CR with the secret
-              echo "
-              kind: Pachyderm
-              apiVersion: aiml.pachyderm.com/v1beta1
-              metadata:
-                name: pachyderm-ceph
-              spec:
-                console:
-                  disable: true
-                pachd:
-                  metrics:
-                    disable: false
-                  storage:
-                    amazon:
-                      credentialSecretName: ${pachyderm_secret_name}
-                    backend: AMAZON
-<<<<<<< HEAD
-              "|oc create -f -
-=======
-              "|oc apply -f -
->>>>>>> pachyderm
+              pachydermCRCreated=1
+              while [[ ${pachydermCRCreated} != 0 ]]
+              do
+                echo "
+                kind: Pachyderm
+                apiVersion: aiml.pachyderm.com/v1beta1
+                metadata:
+                  name: pachyderm-ceph
+                spec:
+                  console:
+                    disable: true
+                  pachd:
+                    metrics:
+                      disable: false
+                    storage:
+                      amazon:
+                        credentialSecretName: ${pachyderm_secret_name}
+                      backend: AMAZON
+                "|oc apply -f -
+
+                if [[ $@ != 0 ]]
+                then
+                  echo "INFO: Pachyderm CR failed to be created."
+                  echo "INFO: Retry to create a Pachyderm CR."
+                  pachydermCRCreated=1
+                else
+                  echo "INFO: Pachyderm CR is created successfully."
+                  pachydermCRCreated=0
+                fi    
+              done
+
 
               echo "Pachyderm Deployer is successfully finished"
           imagePullPolicy: IfNotPresent

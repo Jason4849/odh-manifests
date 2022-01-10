@@ -31,7 +31,10 @@ spec:
               # However, the storage_secret was set different name, it execute only:
               #  - Pachyderm part
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> pachyderm
               isPodReady(){
                 local pod_name=$1
                 ready_pod=$(oc get pod $pod_name  --no-headers|awk '{print $2}' |cut -d/ -f1)
@@ -147,7 +150,11 @@ spec:
                     amazon:
                       credentialSecretName: ${pachyderm_secret_name}
                     backend: AMAZON
+<<<<<<< HEAD
               "|oc create -f -
+=======
+              "|oc apply -f -
+>>>>>>> pachyderm
 
               echo "Pachyderm Deployer is successfully finished"
           imagePullPolicy: IfNotPresent

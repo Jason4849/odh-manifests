@@ -123,7 +123,7 @@ do
   kind: Pachyderm
   apiVersion: aiml.pachyderm.com/v1beta1
   metadata:
-    name: pachyderm-ceph
+    name: pachyderm
   spec:
     console:
       disable: true

@@ -14,7 +14,7 @@ function test_superset() {
     os::cmd::try_until_text "oc get deployment superset" "superset" $odhdefaulttimeout $odhdefaultinterval
     os::cmd::try_until_text "oc get pods -l app=superset --field-selector='status.phase=Running' -o jsonpath='{$.items[*].metadata.name}'" "superset" $odhdefaulttimeout $odhdefaultinterval
     runningpods=($(oc get pods -l app=superset --field-selector="status.phase=Running" -o jsonpath="{$.items[*].metadata.name}"))
-    os::cmd::expect_success_and_text "echo ${#runningpods[@]}" "1"
+    os::cmd::expect_success_and_text "echo ${#runningpods[@]}" "2"
 }
 
 test_superset

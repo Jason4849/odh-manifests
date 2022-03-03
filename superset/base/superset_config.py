@@ -43,8 +43,18 @@ SQLALCHEMY_ENGINE_OPTIONS = {
 # Set Webserver timeout to 30 minutes to wait for the queries to be executed
 SUPERSET_WEBSERVER_TIMEOUT = 1800
 
-os.environ['CURL_CA_BUNDLE'] = \
-        '/run/secrets/kubernetes.io/serviceaccount/ca.crt'
+SYSTEM_CERT_BUNDLE = '/etc/ssl/certs/ca-certificates.crt'
+CLUSTER_CERT_BUNDLE = '/run/secrets/kubernetes.io/serviceaccount/ca.crt'
+COMBINED_CERT_BUNDLE = '/tmp/superset-combined-cert-bundle.crt'
+
+with open(COMBINED_CERT_BUNDLE, 'a+') as combined:
+    with open(SYSTEM_CERT_BUNDLE) as sys_bundle:
+        combined.write(sys_bundle.read())
+
+    with open(CLUSTER_CERT_BUNDLE) as clus_bundle:
+        combined.write(clus_bundle.read())
+
+os.environ['CURL_CA_BUNDLE'] = COMBINED_CERT_BUNDLE
 
 AUTH_TYPE = AUTH_OAUTH
 
@@ -106,7 +116,7 @@ class CustomSecurityManager(SupersetSecurityManager):
         )
         data = me.json()
         username = data.get('metadata').get('name')
-        full_name = data.get('fullName')
+        full_name = data.get('fullName', '')
         first_name = ''
         last_name = ''
         if ' ' in full_name:

@@ -20,6 +20,19 @@ spec:
     name: superset
   - kustomizeConfig:
       parameters:
+      - name: namespace
+        value: openshift-operators
+      repoRef:
+        name: manifests
+        path: kafka/cluster
+    name: strimzi-operator
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
+        path: kafka/kafka
+    name: kafka-cluster
+  - kustomizeConfig:
+      parameters:
       - name: s3_endpoint_url
         value: s3.odh.com
       repoRef:
@@ -36,10 +49,25 @@ spec:
   - kustomizeConfig:
       repoRef:
         name: manifests
+        path: prometheus/cluster
+    name: prometheus-cluster
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
+        path: prometheus/operator
+    name: prometheus-operator
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
+        path: odhargo/cluster
+    name: odhargo-cluster
+  - kustomizeConfig:
+      repoRef:
+        name: manifests
         path: odh-dashboard
     name: odh-dashboard
   repos:
   - name: kf-manifests
     uri: https://github.com/opendatahub-io/manifests/tarball/v1.3-openshift
   - name: manifests
-    uri: https://github.com/opendatahub-io/odh-manifests/tarball/v1.1.1
+    uri: https://github.com/opendatahub-io/odh-manifests/tarball/v1.1.2

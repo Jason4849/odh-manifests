@@ -16,6 +16,6 @@ resources:
 
 images:
   - name: modelmesh-controller
-    newName: quay.io/opendatahub/modelmesh-controller
+    newName: quay.io/jooholee/odh-modelmesh-serving-controller-container-live
     ## NOTE THIS SHOULD BE REPLACED WITH LATEST CONTROLLER IMAGE TAG
-    newTag: v0.9.0-secretpatch
+    newTag: 1.22.0-sync
